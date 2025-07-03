@@ -1,7 +1,13 @@
 import React from 'react'
+import { FaEye } from "react-icons/fa";
+import { RiPencilFill } from "react-icons/ri";
+import { FaTrashAlt } from "react-icons/fa";
+import ModalForm from './ModalForm';
 
 const TableList = () => {
     
+    const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
+
     const students = [
         {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
         {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
@@ -9,20 +15,17 @@ const TableList = () => {
     ]
 
   return (
-    <div className="overflow-x-auto mt-10">
+    <div className="overflow-x-auto mt-10 mx-10">
         <table className="table">
             {/* head */}
             <thead>
             <tr>
-                <th>Student List</th>
-                <th>Name</th>
-                <th>Course</th>
-                <th>Year Level</th>
-                <th>Current Semester</th>
-                <th>Status</th>
+                {headers.map(header => (
+                    <th key={header}>{header}</th>
+                ))}
             </tr>
             </thead>
-            <tbody className='hover:bg-base-300'>
+            <tbody className='hover'>
 
             {students.map((student) => {
                 return(
@@ -33,6 +36,19 @@ const TableList = () => {
                 <td>{student.year}</td>
                 <td>{student.sem}</td>
                 <td>{student.status}</td>
+                <td>
+                    <div className='flex justify-between'>
+                        <FaEye size={20}/>
+                        <RiPencilFill onClick={()=> document.getElementById('edit_modal').showModal()}  size={20}/>
+                        <FaTrashAlt size={20}/>
+                            <ModalForm
+                            id={"edit_modal"}
+                            header={"Edit Student Details"}
+                            actionLabel={"Save Changes"}
+                             />
+                    </div>
+
+                </td>
             </tr>
                 )
             })}
