@@ -4,8 +4,8 @@ const TableList = () => {
     
     const students = [
         {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
-        {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
-        {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
+        {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
+        {studID: "02000341021", name: "Joenel Sevellejo", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
     ]
 
   return (
@@ -19,7 +19,7 @@ const TableList = () => {
                 <th>Course</th>
                 <th>Year Level</th>
                 <th>Current Semester</th>
-                <th>Statusr</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody className='hover:bg-base-300'>
