@@ -1,4 +1,6 @@
 import React from 'react'
+import Input from './Input';
+import Select from './Select';
 
 const NavBar = () => {
 
@@ -25,58 +27,54 @@ const NavBar = () => {
             <button className="btn btn-primary" onClick={()=>document.getElementById('my_modal_5').showModal()}>Add Student</button>
             <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle ">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Complete Student Details</h3>
+                    <h3 className="font-bold text-lg pb-1">Complete Student Details</h3>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Student Id:</legend>
-                            <input type="text" className="input " placeholder="Type here" />
-                            <p className="label">Required*</p>
-                        </fieldset>
 
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Student Name:</legend>
-                            <input type="text" className="input" placeholder="Type here" />
-                            <p className="label">Required*</p>
-                        </fieldset>
+                        <Input
+                            label={"Student ID:"}
+                            name={"id"}
+                            type={"text"}
+                            placeholder={"Type the given Student ID..."}
+                            required={true}
+                        />
+                        
 
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Courses</legend>
-                            <select defaultValue="Pick a browser" className="select">
-                                {courses.map((course, id) => {
-                                    return(
-                                        <option key={id}>{course}</option>
-                                    )
-                                })}
-                            </select>
-                            <span className="label">Required*</span>
-                        </fieldset>
+                        <Input
+                            label={"Student Name:"}
+                            name={"name"}
+                            type={"text"}
+                            placeholder={"Type student's fullname"}
+                            required={true}
+                        />
 
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Year</legend>
-                            <select className="select">
-                            {years.map(year => (
-                                <option key={year}>{year}</option>
-                            ))}
-                            </select>
-                            <span className="label">Required*</span>
-                        </fieldset>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Semester</legend>
-                            <select defaultValue="1st Semester" className="select">
-                                <option>1st Semester</option>
-                                <option>2nd Semester</option>
-                            </select>
-                            <span className="label">Required*</span>
-                        </fieldset>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Status</legend>
-                            <select className="select select-bordered w-full max-w-xs">
-                                {statuses.map(status => (
-                                    <option key={status}>{status}</option>
-                                ))}
-                            </select>
-                            <span className="label">Required*</span>
-                        </fieldset>
+                        <Select
+                            label={"Course:"}
+                            name={"course"}
+                            arrays={courses}
+                            required={true}
+                        />
+
+                        <Select
+                            label={"Year"}
+                            name={"year"}
+                            arrays={years}
+                            required={true}
+                        />
+
+                        <Select
+                            label={"Semester:"}
+                            name={"semester"}
+                            arrays={semesters}
+                            required={true}
+                        />
+
+                        <Select
+                            label={"Status:"}
+                            name={"status"}
+                            arrays={statuses}
+                            required={true}
+                        />
+
                         <form method="dialog ">
                             <button className="btn btn-primary  mr-1">Submit</button>
                             <button className="btn btn-neutral ml-1">Cancel</button>
