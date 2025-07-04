@@ -10,8 +10,8 @@ const TableList = () => {
 
     const students = [
         {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
-        {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
-        {studID: "02000341021", name: "Joenel Sevellejo", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
+        {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSBA", year: "2", sem: "1", status: "Enrolled"},
+        {studID: "02000341021", name: "Joenel Sevellejo", course: "BSIT", year: "4", sem: "2", status: "Pending"},
     ]
 
   return (

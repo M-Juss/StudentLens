@@ -39,6 +39,7 @@ const ModalForm = ({id, header, actionLabel }) => {
                             placeholder={"Type the given Student ID..."}
                             required={true}
                             onChange={(e) => setStudentId(e.target.value)}
+                            disable={header === 'Complete Student Details' ? false:true}
                         />
                         
 
