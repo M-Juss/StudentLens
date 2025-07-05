@@ -3,16 +3,36 @@ import { FaEye } from "react-icons/fa";
 import { RiPencilFill } from "react-icons/ri";
 import { FaTrashAlt } from "react-icons/fa";
 import ModalForm from './ModalForm';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios'
 
 const TableList = () => {
     
     const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
 
-    const students = [
-        {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
-        {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSBA", year: "2", sem: "1", status: "Enrolled"},
-        {studID: "02000341021", name: "Joenel Sevellejo", course: "BSIT", year: "4", sem: "2", status: "Pending"},
-    ]
+    const [tableData, setTableData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async() => {
+            try{
+                const response = await axios.get('http://localhost:3000/api/students')
+                setTableData(response.data)
+                console.log(tableData)
+            } catch (err) {
+                console.log(`Error occured: ${err.message}`)
+            }
+        }
+
+        fetchData()
+
+    }, [])
+
+    // const students = [
+    //     {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
+    //     {studID: "02000240131", name: "Nathaniel Joy Alvarez", course: "BSBA", year: "2", sem: "1", status: "Enrolled"},
+    //     {studID: "02000341021", name: "Joenel Sevellejo", course: "BSIT", year: "4", sem: "2", status: "Pending"},
+    // ]
 
   return (
     <div className="overflow-x-auto mt-10 mx-10">
@@ -27,14 +47,14 @@ const TableList = () => {
             </thead>
             <tbody className='hover'>
 
-            {students.map((student) => {
+            {tableData.map((student) => {
                 return(
-            <tr>
-                <th>{student.studID}</th>
+            <tr key={student.id}>
+                <th>{student.id}</th>
                 <td>{student.name}</td>
                 <td>{student.course}</td>
                 <td>{student.year}</td>
-                <td>{student.sem}</td>
+                <td>{student.semester}</td>
                 <td>{student.status}</td>
                 <td>
                     <div className='flex justify-between'>
@@ -45,7 +65,7 @@ const TableList = () => {
                             id={"edit_modal"}
                             header={"Edit Student Details"}
                             actionLabel={"Save Changes"}
-                             />
+                            />
                     </div>
 
                 </td>
