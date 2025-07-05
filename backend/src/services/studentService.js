@@ -28,4 +28,10 @@ export const deleteStudent = async(studentId) => {
     return rowCount > 0
 }
 
+export const searchStudent = async(searchTerm) => {
+    const { rows } = await query('SELECT * FROM student_details WHERE id::text ILIKE $1 or name ILIKE $1 or course ILIKE $1 or year ILIKE $1 or semester ILIKE $1 or status ILIKE $1 ', [`%${searchTerm}%`]
+    );
+
+    return rows
+}
 

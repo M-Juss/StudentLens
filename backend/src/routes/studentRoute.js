@@ -12,4 +12,6 @@ router.put('/students/:id', studentController.updateStudent)
 
 router.delete('/students/:id', studentController.deleteStudent)
 
+router.get('/students/search', studentController.searchStudent)
+
 export default router

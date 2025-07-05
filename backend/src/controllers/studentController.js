@@ -45,3 +45,15 @@ export const deleteStudent = async( req ,res ) => {
         res.status(500).json({message: 'Internal server error'})
     }
 }
+
+export const searchStudent = async( req ,res ) => {
+    try{
+        const searchKeyword = req.query.any
+        const searchStudent = await studentServices.searchStudent(searchKeyword)
+        if(!searchStudent) return res.status(404).json({message:`Failed to search student`})
+        res.status(200).json(searchStudent)
+    } catch(err) {
+        console.log('Error deleting students', err)
+        res.status(500).json({message: 'Internal server error'})
+    }
+}
