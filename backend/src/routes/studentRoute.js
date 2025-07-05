@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.get('/students', studentController.getStudents)
 
-router.post('/students', studentController.createStudents)
+router.post('/students', studentController.createStudent)
+
+router.put('/students/:id', studentController.updateStudent)
 
 export default router
