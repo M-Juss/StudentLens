@@ -21,3 +21,11 @@ export const updateStudent = async(studentDeets, studentId) => {
     return rows[0]
 }
 
+export const deleteStudent = async(studentId) => {
+    const { rowCount } = await query('DELETE from student_details WHERE id = $1 RETURNING *', [studentId]
+    );
+
+    return rowCount > 0
+}
+
+

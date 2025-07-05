@@ -10,4 +10,6 @@ router.post('/students', studentController.createStudent)
 
 router.put('/students/:id', studentController.updateStudent)
 
+router.delete('/students/:id', studentController.deleteStudent)
+
 export default router
