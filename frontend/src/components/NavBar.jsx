@@ -2,7 +2,11 @@ import React from 'react'
 
 import ModalForm from './ModalForm';
 
-const NavBar = () => {
+const NavBar = ({onSearch}) => {
+
+  const handleSearchChange = (e) => {
+    onSearch(e.target.value)
+  }
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -12,7 +16,7 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-center ">
-            <input type="text" placeholder="Search" className="input input-bordered w-auto md:w-100" />
+            <input type="text" placeholder="Search" onChange={handleSearchChange} className="input input-bordered w-auto md:w-100" />
         </div>
 
         <div className="navbar-end">

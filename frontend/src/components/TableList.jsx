@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios'
 
-const TableList = () => {
+const TableList = ({searchTerm}) => {
     
     const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
 
@@ -18,7 +18,6 @@ const TableList = () => {
             try{
                 const response = await axios.get('http://localhost:3000/api/students')
                 setTableData(response.data)
-                console.log(tableData)
             } catch (err) {
                 console.log(`Error occured: ${err.message}`)
             }
@@ -27,6 +26,15 @@ const TableList = () => {
         fetchData()
 
     }, [])
+
+    const filteredData = tableData.filter(student => (
+        student.id.toString().includes(searchTerm.toLowerCase()) ||
+        student.name.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        student.course.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        student.year.toLowerCase().includes(searchTerm.toLowerCase())  ||
+        student.semester.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.status.toLowerCase().includes(searchTerm.toLowerCase())
+    ))
 
     // const students = [
     //     {studID: "02000362266", name: "Mark Justin Sayon", course: "BSIT", year: "3", sem: "1", status: "Enrolled"},
@@ -47,7 +55,7 @@ const TableList = () => {
             </thead>
             <tbody className='hover'>
 
-            {tableData.map((student) => {
+            {filteredData.map((student) => {
                 return(
             <tr key={student.id}>
                 <th>{student.id}</th>
