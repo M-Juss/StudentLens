@@ -7,27 +7,25 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios'
 
-const TableList = ({searchTerm}) => {
+const TableList = ({searchTerm, students, onOpenModal}) => {
     
     const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
 
-    const [tableData, setTableData] = useState([]);
+    // useEffect(() => {
+    //     const fetchData = async() => {
+    //         try{
+    //             const response = await axios.get('http://localhost:3000/api/students')
+    //             setTableData(response.data)
+    //         } catch (err) {
+    //             console.log(`Error occured: ${err.message}`)
+    //         }
+    //     }
 
-    useEffect(() => {
-        const fetchData = async() => {
-            try{
-                const response = await axios.get('http://localhost:3000/api/students')
-                setTableData(response.data)
-            } catch (err) {
-                console.log(`Error occured: ${err.message}`)
-            }
-        }
+    //     fetchData()
 
-        fetchData()
+    // }, [])
 
-    }, [])
-
-    const filteredData = tableData.filter(student => (
+    const filteredData = students.filter(student => (
         student.id.toString().includes(searchTerm.toLowerCase()) ||
         student.name.toLowerCase().includes(searchTerm.toLowerCase())  ||
         student.course.toLowerCase().includes(searchTerm.toLowerCase())  ||
@@ -67,13 +65,8 @@ const TableList = ({searchTerm}) => {
                 <td>
                     <div className='flex justify-between'>
                         <FaEye size={20}/>
-                        <RiPencilFill onClick={()=> document.getElementById('edit_modal').showModal()}  size={20}/>
+                        <RiPencilFill onClick={onOpenModal}  size={20}/>
                         <FaTrashAlt size={20}/>
-                            <ModalForm
-                            id={"edit_modal"}
-                            header={"Edit Student Details"}
-                            actionLabel={"Save Changes"}
-                            />
                     </div>
 
                 </td>

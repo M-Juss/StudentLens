@@ -2,7 +2,7 @@ import React from 'react'
 
 import ModalForm from './ModalForm';
 
-const NavBar = ({onSearch}) => {
+const NavBar = ({onSearch, onOpenModal}) => {
 
   const handleSearchChange = (e) => {
     onSearch(e.target.value)
@@ -20,12 +20,7 @@ const NavBar = ({onSearch}) => {
         </div>
 
         <div className="navbar-end">
-        <button className="btn btn-primary" onClick={()=>document.getElementById('add_modal').showModal()}>Add Student</button>
-        <ModalForm
-            id={"add_modal"}
-            header={"Complete Student Details"}
-            actionLabel={"Submit Student"}
-        />
+        <button className="btn btn-primary" onClick={onOpenModal}>Add Student</button>
 
         </div>
     </div>
