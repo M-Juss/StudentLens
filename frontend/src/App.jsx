@@ -10,6 +10,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('')
   const [tableData, setTableData] = useState([])
   const [modalConfig, setModalConfig] = useState([])
+  const [selectedStudent, setSelectedStudent] = useState(null)
 
   useEffect(() => {
     const fetchData = async() => {
@@ -40,7 +41,8 @@ function App() {
         document.getElementById('add_modal').showModal();
       }}/>
 
-      <TableList searchTerm={searchTerm} students={tableData} onOpenModal={() => {
+      <TableList searchTerm={searchTerm} students={tableData} onOpenModal={(student) => {
+        setSelectedStudent(student)
         setModalConfig({
           id: 'edit_modal',
           header: 'Edit Student Details',
@@ -54,6 +56,7 @@ function App() {
         header={modalConfig.header}
         actionLabel={modalConfig.actionLabel}
         onStudentAdded={handleStudentAdded}
+        selectedStudent={selectedStudent}
       />
     </>
   )

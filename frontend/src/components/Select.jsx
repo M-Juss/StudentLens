@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Select = ({label, name, arrays, required = false, onChange}) => {
+const Select = ({label, name, arrays, required = false, onChange, value}) => {
   return (
     <div>
         <fieldset className="fieldset">
             <legend className="fieldset-legend">{label}</legend>
-            <select name={name}  className="select" onChange={onChange}>
+            <select name={name}  className="select" onChange={onChange} value={value}>
                 {arrays.map((array, index) => {
                     return(
                         <option key={index}>{array}</option>

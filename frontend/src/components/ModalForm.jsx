@@ -3,7 +3,7 @@ import Input from './Input';
 import Select from './Select';
 import axios from 'axios';
 
-const ModalForm = ({ id, header, actionLabel, onStudentAdded }) => {
+const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent }) => {
   const courses = ["", "BSIT", "BSTM", "BSBA-FM", "BSAIS"];
   const years = ["", "1st Year", "2nd Year", "3rd Year", "4th Year"];
   const semesters = ["", "1st Semester", "2nd Semester"];
@@ -17,12 +17,31 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded }) => {
   const [studentStatus, setStudentStatus] = useState('')
 
 
-  // useEffect(()=> {
-  //   console.log(header !== 'Complete Student Details')
-  // }, [])
+  useEffect(()=> {
+    if(id === 'add_modal'){
+      setStudentId('')
+      setStudentName('')
+      setStudentCourse('')
+      setStudentYear('')
+      setStudentSemester('')
+      setStudentStatus('')
+    }
+  }, [id])
+
+  useEffect(() => {
+    if(selectedStudent && id === 'edit_modal'){
+      setStudentId(selectedStudent.id)
+      setStudentName(selectedStudent.name)
+      setStudentCourse(selectedStudent.course)
+      setStudentYear(selectedStudent.year)
+      setStudentSemester(selectedStudent.semester)
+      setStudentStatus(selectedStudent.status)
+    }
+  }, [selectedStudent, id])
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+    
     const newStudent = {
       id: Number(studentId),
       name: studentName,
@@ -33,8 +52,13 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/students', newStudent);
-      if (onStudentAdded) onStudentAdded(response.data);
+      if(id === 'edit_modal'){
+        const response = await axios.put(`http://localhost:3000/api/students/${studentId}`, newStudent)
+        console.log(`Student upated successfully ${response.data}`)
+        
+      } else {
+        const response = await axios.post('http://localhost:3000/api/students', newStudent);
+        if (onStudentAdded) onStudentAdded(response.data);
       document.getElementById(id).close();
       setStudentId('')
       setStudentName('')
@@ -42,6 +66,8 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded }) => {
       setStudentYear('')
       setStudentSemester('')
       setStudentStatus('')
+      }
+
     } catch (err) {
       console.log(`Error message: ${err}`)
     }
