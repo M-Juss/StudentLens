@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios'
 
-const TableList = ({searchTerm, students, onOpenModal}) => {
+const TableList = ({searchTerm, students, onOpenModal, onStudentDeleted}) => {
     
     const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
 
@@ -20,6 +20,21 @@ const TableList = ({searchTerm, students, onOpenModal}) => {
         student.semester.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.status.toLowerCase().includes(searchTerm.toLowerCase())
     ))
+
+    const handleDelete = async (id) => {
+        const confirmDelete = window.confirm(`Are you sure you want to delete student: ${id}?`)
+        
+        if (confirmDelete){
+            console.log(`Debugging`)
+            try{
+                await axios.delete(`http://localhost:3000/api/students/${id}`)
+                if(onStudentDeleted) onStudentDeleted()
+            } catch(err) {
+                console.log(`Failed to delete student ${err.message}`)
+            }
+        }
+        else return;
+    }
 
 
     return (
@@ -48,7 +63,7 @@ const TableList = ({searchTerm, students, onOpenModal}) => {
                     <div className='flex justify-between'>
                         <FaEye size={20}/>
                         <RiPencilFill onClick={() => onOpenModal(student)}  size={20}/>
-                        <FaTrashAlt size={20}/>
+                        <FaTrashAlt size={20} onClick={() => handleDelete(student.id)}/>
                     </div>
 
                 </td>

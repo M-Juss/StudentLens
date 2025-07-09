@@ -30,9 +30,24 @@ function App() {
     setTableData(prev => [...prev, newStudent])
   }
   
+  const triggerRefresh = () => {
+        const fetchData = async() => {
+      try{
+        const response = await axios.get('http://localhost:3000/api/students')
+        setTableData(response.data)
+      } catch(err) {
+        console.log(`Error occured: ${err.message}`)
+      }
+    }
+
+    fetchData()
+  }
+
   return (
     <>
-      <NavBar onSearch={setSearchTerm} onOpenModal={() => {
+      <NavBar 
+      onSearch={setSearchTerm} 
+      onOpenModal={() => {
         setModalConfig({
           id: 'add_modal',
           header: 'Complete Student Details',
@@ -41,7 +56,11 @@ function App() {
         document.getElementById('add_modal').showModal();
       }}/>
 
-      <TableList searchTerm={searchTerm} students={tableData} onOpenModal={(student) => {
+      <TableList 
+      searchTerm={searchTerm} 
+      students={tableData} 
+      onStudentDeleted={triggerRefresh}
+      onOpenModal={(student) => {
         setSelectedStudent(student)
         setModalConfig({
           id: 'edit_modal',
@@ -57,6 +76,7 @@ function App() {
         actionLabel={modalConfig.actionLabel}
         onStudentAdded={handleStudentAdded}
         selectedStudent={selectedStudent}
+        onUpdateStudent={triggerRefresh}
       />
     </>
   )

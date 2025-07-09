@@ -3,11 +3,11 @@ import Input from './Input';
 import Select from './Select';
 import axios from 'axios';
 
-const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent }) => {
-  const courses = ["", "BSIT", "BSTM", "BSBA-FM", "BSAIS"];
-  const years = ["", "1st Year", "2nd Year", "3rd Year", "4th Year"];
-  const semesters = ["", "1st Semester", "2nd Semester"];
-  const statuses = ["", "Enrolled", "Pending", "Approved", "Dropped", "Graduated"];
+const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, onUpdateStudent }) => {
+  const courses = ["BSIT", "BSTM", "BSBA-FM", "BSAIS"];
+  const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
+  const semesters = ["1st Semester", "2nd Semester"];
+  const statuses = ["Enrolled", "Pending", "Approved", "Dropped", "Graduated"];
 
   const [studentId, setStudentId] = useState('')
   const [studentName, setStudentName] = useState('')
@@ -42,7 +42,11 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent })
   const handleSubmit = async(e) => {
     e.preventDefault();
     
-    const newStudent = {
+    if(studentId == ' ' || studentName === ' ' || studentCourse === ' ' || studentYear === ' ' || studentSemester === ' ', studentStatus === ' ') {
+      window.alert('Kindly fill up all the required fields')
+    } else{
+      
+      const newStudent = {
       id: Number(studentId),
       name: studentName,
       course: studentCourse,
@@ -55,22 +59,27 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent })
       if(id === 'edit_modal'){
         const response = await axios.put(`http://localhost:3000/api/students/${studentId}`, newStudent)
         console.log(`Student upated successfully ${response.data}`)
+        if (onUpdateStudent) onUpdateStudent();
+        document.getElementById(id).close();
         
       } else {
         const response = await axios.post('http://localhost:3000/api/students', newStudent);
         if (onStudentAdded) onStudentAdded(response.data);
-      document.getElementById(id).close();
-      setStudentId('')
-      setStudentName('')
-      setStudentCourse('')
-      setStudentYear('')
-      setStudentSemester('')
-      setStudentStatus('')
+        document.getElementById(id).close();
+        setStudentId('')
+        setStudentName('')
+        setStudentCourse('')
+        setStudentYear('')
+        setStudentSemester('')
+        setStudentStatus('')
       }
 
     } catch (err) {
       console.log(`Error message: ${err}`)
     }
+    }
+
+
   }
 
   return (
