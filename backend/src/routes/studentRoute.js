@@ -6,6 +6,8 @@ const router = express.Router()
 
 router.get('/students', studentController.getStudents)
 
+router.get('/students/:id', studentController.getSelectedStudent)
+
 router.post('/students', studentController.createStudent)
 
 router.put('/students/:id', studentController.updateStudent)

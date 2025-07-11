@@ -5,6 +5,11 @@ export const getStudents = async() => {
     return rows;
 }
 
+export const getSelectedStudent = async(studentId) => {
+    const {rows} = await query('SELECT * FROM student_details WHERE id = $1', [studentId])
+    return rows[0];
+}
+
 export const createStudent = async(studentDeets) => {
     const {id, name, course, year, semester, status} = studentDeets
     const {rows} = await query('INSERT INTO student_details (id, name, course, year, semester, status) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [id, name, course, year, semester, status]

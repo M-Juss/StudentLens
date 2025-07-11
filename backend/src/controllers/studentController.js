@@ -10,6 +10,18 @@ export const getStudents = async( req ,res ) => {
     }
 }
 
+export const getSelectedStudent = async( req ,res ) => {
+    try{
+        const studentId = req.params.id
+        const students = await studentServices.getSelectedStudent(studentId)
+        if(!students) return res.status(404).json({message:`Failed to get selected student`})
+        res.status(200).json(students)
+    } catch(err) {
+        console.log('Error fetching selected students', err)
+        res.status(500).json({message: 'Internal server error'})
+    }
+}
+
 export const createStudent = async( req ,res ) => {
     try{
         const studentDeets = req.body
@@ -38,7 +50,7 @@ export const deleteStudent = async( req ,res ) => {
     try{
         const studentId = req.params.id
         const deleteStudent = await studentServices.deleteStudent(studentId)
-        if(!deleteStudent) return res.status(404).json({message:`Failed to update student`})
+        if(!deleteStudent) return res.status(404).json({message:`Failed to delete student`})
         res.status(200).send()
     } catch(err) {
         console.log('Error deleting students', err)

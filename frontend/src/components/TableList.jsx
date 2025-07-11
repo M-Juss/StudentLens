@@ -6,11 +6,13 @@ import ModalForm from './ModalForm';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom';
 
 const TableList = ({searchTerm, students, onOpenModal, onStudentDeleted}) => {
     
-    const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
+    const navigate = useNavigate()
 
+    const headers = ["Student List", "Name", "Course", "Year Level", "Current Semester", "Status", "Actions"]
 
     const filteredData = students.filter(student => (
         student.id.toString().includes(searchTerm.toLowerCase()) ||
@@ -61,7 +63,7 @@ const TableList = ({searchTerm, students, onOpenModal, onStudentDeleted}) => {
                 <td>{student.status}</td>
                 <td>
                     <div className='flex justify-between'>
-                        <FaEye size={20}/>
+                        <FaEye size={20} onClick={() => navigate(`/student/${student.id}`)} />
                         <RiPencilFill onClick={() => onOpenModal(student)}  size={20}/>
                         <FaTrashAlt size={20} onClick={() => handleDelete(student.id)}/>
                     </div>

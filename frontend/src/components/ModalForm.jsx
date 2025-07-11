@@ -9,6 +9,11 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
   const semesters = ["1st Semester", "2nd Semester"];
   const statuses = ["Enrolled", "Pending", "Approved", "Dropped", "Graduated"];
 
+  const defaultCourses = [ "Choose a course", ...courses]
+  const defaultYear = [ "Choose a year", ...years]
+  const defaultSemester = [ "Choose a semester", ...semesters]
+  const defaultStatus = ["Choose a status", ...statuses]
+
   const [studentId, setStudentId] = useState('')
   const [studentName, setStudentName] = useState('')
   const [studentCourse, setStudentCourse] = useState('')
@@ -39,12 +44,29 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
     }
   }, [selectedStudent, id])
 
+  const handleOnCancel = () => {
+    if(id === 'add_modal'){
+      setStudentId('')
+      setStudentName('')
+      setStudentCourse('')
+      setStudentYear('')
+      setStudentSemester('')
+      setStudentStatus('')
+      document.getElementById(id).close()
+    } else {
+      document.getElementById(id).close()
+    }
+   
+  }
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     
-    if(studentId == ' ' || studentName === ' ' || studentCourse === ' ' || studentYear === ' ' || studentSemester === ' ', studentStatus === ' ') {
+    if(studentId === '' || studentName === '' || studentCourse === '' || studentYear === '' || studentSemester === '' || studentStatus === '' ) {
+      console.log(studentId,studentName, studentCourse, studentYear, studentSemester, studentStatus )
       window.alert('Kindly fill up all the required fields')
-    } else{
+    } 
+    else{
       
       const newStudent = {
       id: Number(studentId),
@@ -108,37 +130,41 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
               onChange={(e) => setStudentName(e.target.value)}
             />
             <Select
+              id={id}
               label="Course:"
               value={studentCourse}
-              arrays={courses}
+              arrays={id === 'add_modal'? defaultCourses : courses}
               required
               onChange={(e) => setStudentCourse(e.target.value)}
             />
             <Select
+              id={id}
               label="Year"
               value={studentYear}
-              arrays={years}
+              arrays={id === 'add_modal'? defaultYear : years}
               required
               onChange={(e) => setStudentYear(e.target.value)}
             />
             <Select
+              id={id}
               label="Semester:"
               value={studentSemester}
-              arrays={semesters}
+              arrays={id === 'add_modal'? defaultSemester : semesters}
               required
               onChange={(e) => setStudentSemester(e.target.value)}
             />
             <Select
               label="Status:"
+              id={id}
               value={studentStatus}
-              arrays={statuses}
+              arrays={id === 'add_modal'? defaultStatus : statuses}
               required
               onChange={(e) => setStudentStatus(e.target.value)}
             />
           </div>
           <div className='modal-action mt-4'>
             <button type="submit" className="btn btn-primary mr-1">{actionLabel}</button>
-            <button type="button" className="btn btn-neutral ml-1" onClick={() => document.getElementById(id).close()}>Cancel</button>
+            <button type="button" className="btn btn-neutral ml-1" onClick={() => handleOnCancel()}>Cancel</button>
           </div>
         </form>
       </div>
