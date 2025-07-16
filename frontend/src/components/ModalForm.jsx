@@ -3,7 +3,7 @@ import Input from './Input';
 import Select from './Select';
 import axios from 'axios';
 
-const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, onUpdateStudent }) => {
+const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, onUpdateStudent, setSuccessUpdateMessage, setSuccessAddMessage, setErrorAddMessage }) => {
   const courses = ["BSIT", "BSTM", "BSBA-FM", "BSAIS"];
   const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
   const semesters = ["1st Semester", "2nd Semester"];
@@ -20,7 +20,6 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
   const [studentYear, setStudentYear] = useState('')
   const [studentSemester, setStudentSemester] = useState('')
   const [studentStatus, setStudentStatus] = useState('')
-
 
   useEffect(()=> {
     if(id === 'add_modal'){
@@ -63,11 +62,11 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
     e.preventDefault();
     
     if(studentId === '' || studentName === '' || studentCourse === '' || studentYear === '' || studentSemester === '' || studentStatus === '' ) {
-      console.log(studentId,studentName, studentCourse, studentYear, studentSemester, studentStatus )
-      window.alert('Kindly fill up all the required fields')
+      setErrorAddMessage('Kindly fill up all the required fields')
+      setTimeout(() => setErrorAddMessage(''), 3000)
     } 
+
     else{
-      
       const newStudent = {
       id: Number(studentId),
       name: studentName,
@@ -82,32 +81,42 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
         const response = await axios.put(`http://localhost:3000/api/students/${studentId}`, newStudent)
         console.log(`Student upated successfully ${response.data}`)
         if (onUpdateStudent) onUpdateStudent();
+
         document.getElementById(id).close();
-        
+
+        setSuccessUpdateMessage('Student details updated successfully!')
+
+        setTimeout(() => setSuccessUpdateMessage(''), 3000)
+
       } else {
         const response = await axios.post('http://localhost:3000/api/students', newStudent);
         if (onStudentAdded) onStudentAdded(response.data);
-        document.getElementById(id).close();
+        
         setStudentId('')
         setStudentName('')
         setStudentCourse('')
         setStudentYear('')
         setStudentSemester('')
         setStudentStatus('')
+
+        setSuccessAddMessage('New student added successfully!')
+        
+        setTimeout(() => setSuccessAddMessage(''), 3000)
+
+        document.getElementById(id).close();
       }
 
     } catch (err) {
       console.log(`Error message: ${err}`)
     }
     }
-
-
   }
 
   return (
     <dialog id={id} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
         <h3 className="font-bold text-lg pb-1">{header}</h3>
+
         <form onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           

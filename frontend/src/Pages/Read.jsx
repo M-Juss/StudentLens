@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Read = () => {
 
   const navigate = useNavigate()
+
   const {id} = useParams()
   const [student, setStudent] = useState([])
 
@@ -20,7 +21,6 @@ const Read = () => {
         console.err(`Invalid Internal Server Error`)
       }
     }
-
     fetchSpecificStudent()
   })
 
