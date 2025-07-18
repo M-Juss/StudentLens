@@ -21,6 +21,8 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
   const [studentSemester, setStudentSemester] = useState('')
   const [studentStatus, setStudentStatus] = useState('')
 
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
   useEffect(()=> {
     if(id === 'add_modal'){
       setStudentId('')
@@ -77,6 +79,7 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
     }
 
     try {
+      setIsSubmitting(true)
       if(id === 'edit_modal'){
         const response = await axios.put(`http://localhost:3000/api/students/${studentId}`, newStudent)
         console.log(`Student upated successfully ${response.data}`)
@@ -108,6 +111,8 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
 
     } catch (err) {
       console.log(`Error message: ${err}`)
+    } finally {
+      setIsSubmitting(false)
     }
     }
   }
@@ -172,7 +177,7 @@ const ModalForm = ({ id, header, actionLabel, onStudentAdded, selectedStudent, o
             />
           </div>
           <div className='modal-action mt-4'>
-            <button type="submit" className="btn btn-primary mr-1">{actionLabel}</button>
+            <button type="submit" className="btn btn-primary mr-1">{isSubmitting ? 'Submitting..' : actionLabel}</button>
             <button type="button" className="btn btn-neutral ml-1" onClick={() => handleOnCancel()}>Cancel</button>
           </div>
         </form>
